@@ -8,7 +8,7 @@ GlobalChatWindow = React.createClass({
     let id = this.props.user._id
 
     Messages.insert({
-      text: text, 
+      message_text: text, 
       createdAt: new Date(),
       user_to: "global",
       user_from: user,
@@ -20,7 +20,7 @@ GlobalChatWindow = React.createClass({
 
   renderGlobalMessages() {
     return this.props.messages.map((message) => {
-      return <li>message.text</li>
+      return <GlobalMessageText messageText={message.message_text} username={message.user_from}/>
     });
   },
 
@@ -39,7 +39,7 @@ GlobalChatWindow = React.createClass({
 
         <div className="global-message-text-container">
           <ul className="global-message-list">
-            {this.renderGlobalMessages}
+            {this.renderGlobalMessages()}
           </ul>
         </div>
         
