@@ -1,4 +1,4 @@
-GlobalChatWindow = React.createClass({
+DirectMessageChatWindow = React.createClass({
 
   handleSubmit() {
     event.preventDefault();  
@@ -6,11 +6,12 @@ GlobalChatWindow = React.createClass({
     let text = React.findDOMNode(this.refs.textInput).value.trim();
     let user = this.props.user.username
     let id = this.props.user._id
+    let user_to = this.props.user_to
 
     Messages.insert({
       message_text: text, 
       createdAt: new Date(),
-      user_to: "global",
+      user_to: user_to,
       user_from: user,
       user_id: id
     });
@@ -18,34 +19,34 @@ GlobalChatWindow = React.createClass({
     React.findDOMNode(this.refs.textInput).value = "";
   },
 
-  renderGlobalMessages() {
+  renderDirectMessages() {
     return this.props.messages.map((message) => {
-      if (message.message_text && message.user_from && message.user_to === "global") {
-        return <GlobalMessageText key={message._id} messageText={message.message_text} username={message.user_from}/>  
+      if (message.message_text && message.user_from && message.user_to === this.props.user_to) {
+        return <DirectMessageText key={message._id} messageText={message.message_text} username={message.user_from}/>  
       }
     });
   },
 
   render() {
     return (
-      <div className="global-chat-window-container">
+      <div className="direct-chat-window-container">
 
-        <div className="global-title-hambuger-container">
+        <div className="direct-title-hambuger-container">
 
-          <h6 className="global-chat-window-title">Global Chat</h6>
+          <h6 className="direct-chat-window-title">Chat With {this.props.user_to}</h6>
           <div className="logged-in-display">
             <AccountsUIWrapper className="accounts-ui-wrapper"/>
           </div>
 
         </div>
 
-        <div className="global-message-text-container">
-          <ul className="global-message-list">
-            {this.renderGlobalMessages()}
+        <div className="direct-message-text-container">
+          <ul className="direct-message-list">
+            {this.renderDirectMessages()}
           </ul>
         </div>
         
-        <form className="new-global-message" onSubmit={this.handleSubmit} > 
+        <form className="new-direct-message" > 
             <input 
               type="text"
               ref="textInput"

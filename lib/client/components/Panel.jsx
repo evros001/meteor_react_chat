@@ -8,8 +8,12 @@ Panel = React.createClass({
 
   renderUsers() {
     return this.props.allUsers[0].map((user) => {
-      return <DirectMessageUserName key={user._id} username={user.username} />
+      return <DirectMessageUserName key={user._id} username={user.username} toDirectMessage={this.toDirectMessage}/>
     });
+  },
+
+  toDirectMessage(user) {
+    this.props.isDirectMessage(user)
   },
 
   render() {
@@ -19,8 +23,7 @@ Panel = React.createClass({
         <div className="logo-global-container">
           <div className="hive-logo">
           </div>
-
-          <h3 className="global-chat-title">Global Chat</h3>
+          <GlobalChatButton backToGlobal={this.toDirectMessage}/>
         </div>
 
         <div className="direct-message-conatiner">
